@@ -41,7 +41,6 @@ export async function POST(request: Request) {
 
         // Refresh any pages that consume the menu.
         revalidatePath("/menu");
-        revalidatePath("/");
 
         return NextResponse.json({
             success: true,
