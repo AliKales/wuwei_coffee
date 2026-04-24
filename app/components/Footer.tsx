@@ -61,6 +61,10 @@ export default function Footer() {
             <Link href="/#gallery" className="text-white/80 hover:text-white">
               Galeri
             </Link>
+            <span className="text-white/30">·</span>
+            <Link href="/login" className="text-white/80 hover:text-white">
+              Giriş Yap
+            </Link>
           </div>
         </div>
       </div>
