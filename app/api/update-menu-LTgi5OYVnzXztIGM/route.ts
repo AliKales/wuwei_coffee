@@ -1,29 +1,56 @@
-import { put } from '@vercel/blob';
-import { NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache';
+import { put } from "@vercel/blob";
+import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
+
+export const runtime = "nodejs";
 
 export async function POST(request: Request) {
     try {
-        const { password, menuData } = await request.json();
+        const body = await request.json();
+        const { password, menuData } = body ?? {};
 
-        // 1. Verify the password matches your .env
         if (password !== process.env.ADMIN_PASSWORD) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        // 2. Overwrite the file in Vercel Blob
-        await put('menu.json', JSON.stringify(menuData), {
-            access: 'public',
+        // Validate menuData so we never write an empty/garbage file.
+        if (
+            !menuData ||
+            typeof menuData !== "object" ||
+            !Array.isArray(menuData.sections)
+        ) {
+            console.error("Invalid menuData received:", menuData);
+            return NextResponse.json(
+                { error: "Invalid menu data", received: menuData },
+                { status: 400 }
+            );
+        }
+
+        const content = JSON.stringify(menuData, null, 2);
+        console.log(
+            `update-menu: writing menu.json (${content.length} bytes, ${menuData.sections.length} sections)`
+        );
+
+        const result = await put("menu.json", content, {
+            access: "public",
             addRandomSuffix: false,
             allowOverwrite: true,
+            contentType: "application/json; charset=utf-8",
+            cacheControlMaxAge: 0,
         });
 
-        // 3. Clear the Next.js cache so the public site updates instantly
-        revalidatePath('/');
+        // Refresh any pages that consume the menu.
+        revalidatePath("/menu");
+        revalidatePath("/");
 
-        return NextResponse.json({ success: true });
-    } catch (error) {
+        return NextResponse.json({
+            success: true,
+            url: result.url,
+            size: content.length,
+        });
+    } catch (error: unknown) {
+        const msg = error instanceof Error ? error.message : String(error);
         console.error("Failed to update menu:", error);
-        return new NextResponse("Internal Server Error", { status: 500 });
+        return NextResponse.json({ error: msg }, { status: 500 });
     }
 }

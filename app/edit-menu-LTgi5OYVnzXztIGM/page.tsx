@@ -17,26 +17,50 @@ export default function EditMenuPage() {
         }
         setPassword(pass);
 
-        fetch(process.env.NEXT_PUBLIC_MENU_BLOB_URL as string)
-            .then((res) => res.json())
-            .then((data) => setMenu(data))
-            .catch((err) => alert("Menü yüklenirken hata oluştu."));
+        const url = process.env.NEXT_PUBLIC_MENU_BLOB_URL as string;
+        // Bust the Vercel Blob CDN cache so we always get the latest version.
+        fetch(`${url}?t=${Date.now()}`, { cache: "no-store" })
+            .then(async (res) => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                // Make sure the expected shape is there so we don't edit a
+                // blank object and overwrite the blob with an empty menu.
+                if (!data || typeof data !== "object" || !Array.isArray(data.sections)) {
+                    throw new Error("Menü dosyası geçersiz formatta.");
+                }
+                setMenu(data);
+            })
+            .catch((err) => {
+                console.error(err);
+                alert("Menü yüklenirken hata oluştu: " + err.message);
+            });
     }, [router]);
 
     const handleSave = async () => {
-        setLoading(true);
-        const res = await fetch("/api/update-menu-LTgi5OYVnzXztIGM", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ password, menuData: menu }),
-        });
-
-        if (res.ok) {
-            alert("Menü başarıyla güncellendi! (Saved successfully)");
-        } else {
-            alert("Kaydetme başarısız oldu. Şifreniz süresi dolmuş olabilir.");
+        if (!menu || !Array.isArray(menu.sections)) {
+            alert("Menü verisi eksik, kaydedilemiyor.");
+            return;
         }
-        setLoading(false);
+
+        setLoading(true);
+        try {
+            const res = await fetch("/api/update-menu-LTgi5OYVnzXztIGM", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password, menuData: menu }),
+            });
+
+            const text = await res.text();
+            if (res.ok) {
+                alert("Menü başarıyla güncellendi!");
+            } else {
+                alert(`Kaydetme başarısız (${res.status}): ${text}`);
+            }
+        } catch (err) {
+            alert("Kaydetme hatası: " + (err as Error).message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const moveSection = (index: number, direction: "up" | "down") => {
