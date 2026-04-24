@@ -1,0 +1,57 @@
+{
+  "title": "Menümüz",
+  "kicker": "Özenle hazırlanır, huzurla sunulur.",
+  "intro": "Özel espressodan ev yapımı yemeklere ve tatlılarımıza kadar — bugün demlediklerimiz ve servis ettiklerimiz.",
+  "sections": [
+    {
+      "id": "kahve",
+      "title": "Kahveler",
+      "image": "/photos/photo_coffee.webp",
+      "items": [
+        { "name": "Espresso", "desc": "Tek shot, yoğun ve dengeli", "price": "₺60" },
+        { "name": "Americano", "desc": "Espresso ve sıcak su", "price": "₺75" },
+        { "name": "Cappuccino", "desc": "Espresso, buharlanmış süt ve köpük", "price": "₺95" },
+        { "name": "Latte", "desc": "İpeksi süt, yumuşak espresso", "price": "₺100" },
+        { "name": "Flat White", "desc": "Çift shot, mikro köpük", "price": "₺105" },
+        { "name": "Mocha", "desc": "Espresso, çikolata ve süt", "price": "₺115" },
+        { "name": "Filtre Kahve", "desc": "Günün tek orijin çekirdeği", "price": "₺85" },
+        { "name": "Türk Kahvesi", "desc": "Geleneksel demleme, lokum ile", "price": "₺70" }
+      ]
+    },
+    {
+      "id": "icecekler",
+      "title": "İçecekler ve Bubble Tea",
+      "image": "/photos/photo_bubble_tea.webp",
+      "items": [
+        { "name": "Klasik Bubble Tea", "desc": "Sütlü çay, tapyoka incileri", "price": "₺130" },
+        { "name": "Taro Bubble Tea", "desc": "Kremsi taro, tapyoka", "price": "₺140" },
+        { "name": "Matcha Latte", "desc": "Tören matchası, buharlanmış süt", "price": "₺120" },
+        { "name": "Chai Latte", "desc": "Baharatlı siyah çay, buharlanmış süt", "price": "₺105" },
+        { "name": "Taze Limonata", "desc": "Elde sıkılmış, nane ile", "price": "₺90" },
+        { "name": "Buzlu Çay", "desc": "Şeftali, orman meyveli veya klasik", "price": "₺80" }
+      ]
+    },
+    {
+      "id": "yemek",
+      "title": "Yemekler",
+      "image": "/photos/photo_burger.webp",
+      "items": [
+        { "name": "Wu Wei Burger", "desc": "Ev yapımı köfte, cheddar, karamelize soğan", "price": "₺280" },
+        { "name": "Tavuk Menü", "desc": "Izgara tavuk, patates ve salata", "price": "₺240" },
+        { "name": "Köri Makarna", "desc": "Kremsi köri sosu, taze otlar", "price": "₺220" },
+        { "name": "Club Sandviç", "desc": "Tavuk, pastırma, yumurta, domates", "price": "₺200" },
+        { "name": "Karışık Tost", "desc": "Ekşi mayalı ekmekte cheddar, kaşar, sucuk", "price": "₺170" }
+      ]
+    },
+    {
+      "id": "tatlilar",
+      "title": "Tatlılar",
+      "image": "/photos/photo_tiramisu.webp",
+      "items": [
+        { "name": "Tiramisu", "desc": "Klasik tarif, espresso ile", "price": "₺140" },
+        { "name": "Cheesecake", "desc": "New York usulü, mevsim meyveleri", "price": "₺130" },
+        { "name": "Brownie", "desc": "Sıcak, vanilyalı dondurma ile", "price": "₺125" }
+      ]
+    }
+  ]
+}

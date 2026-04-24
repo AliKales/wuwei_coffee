@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local admin tool (reusable across projects, kept out of repo)
+/admin
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
