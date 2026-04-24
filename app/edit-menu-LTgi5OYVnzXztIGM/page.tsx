@@ -39,9 +39,8 @@ export default function EditMenuPage() {
         setLoading(false);
     };
 
-    // --- REORDERING HELPERS ---
     const moveSection = (index: number, direction: "up" | "down") => {
-        const newMenu = JSON.parse(JSON.stringify(menu)); // Deep clone
+        const newMenu = JSON.parse(JSON.stringify(menu));
         const targetIndex = direction === "up" ? index - 1 : index + 1;
 
         const temp = newMenu.sections[targetIndex];
@@ -52,7 +51,7 @@ export default function EditMenuPage() {
     };
 
     const moveItem = (sIdx: number, iIdx: number, direction: "up" | "down") => {
-        const newMenu = JSON.parse(JSON.stringify(menu)); // Deep clone
+        const newMenu = JSON.parse(JSON.stringify(menu));
         const targetIndex = direction === "up" ? iIdx - 1 : iIdx + 1;
         const items = newMenu.sections[sIdx].items;
 
@@ -66,42 +65,46 @@ export default function EditMenuPage() {
     if (!menu) return <div className="p-10 text-center">Yükleniyor...</div>;
 
     return (
-        <div className="max-w-5xl mx-auto p-6 text-black bg-gray-50 min-h-screen">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">Menü Düzenleyici</h1>
+        <div className="max-w-5xl mx-auto p-4 sm:p-6 text-black bg-gray-50 min-h-screen">
+
+            {/* PAGE HEADER */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                <h1 className="text-2xl sm:text-3xl font-bold">Menü Düzenleyici</h1>
                 <button
                     onClick={handleSave}
                     disabled={loading}
-                    className="bg-green-600 text-white px-6 py-2 rounded-full font-bold hover:bg-green-700 transition-colors"
+                    className="w-full sm:w-auto bg-green-600 text-white px-6 py-3 sm:py-2 rounded-full font-bold hover:bg-green-700 transition-colors shadow-sm"
                 >
                     {loading ? "Kaydediliyor..." : "Değişiklikleri Kaydet"}
                 </button>
             </div>
 
             {/* HEADER INFO */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border mb-8 space-y-4">
-                <h2 className="text-xl font-bold border-b pb-2">Ana Bilgiler</h2>
+            <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border mb-8 space-y-4">
+                <h2 className="text-lg sm:text-xl font-bold border-b pb-2">Ana Bilgiler</h2>
                 <div>
                     <label className="block text-sm font-semibold mb-1">Başlık</label>
-                    <input className="w-full border p-2 rounded" value={menu.title} onChange={e => setMenu({ ...menu, title: e.target.value })} />
+                    <input className="w-full border p-2 sm:p-3 rounded" value={menu.title} onChange={e => setMenu({ ...menu, title: e.target.value })} />
                 </div>
                 <div>
                     <label className="block text-sm font-semibold mb-1">Slogan (Kicker)</label>
-                    <input className="w-full border p-2 rounded" value={menu.kicker} onChange={e => setMenu({ ...menu, kicker: e.target.value })} />
+                    <input className="w-full border p-2 sm:p-3 rounded" value={menu.kicker} onChange={e => setMenu({ ...menu, kicker: e.target.value })} />
                 </div>
                 <div>
                     <label className="block text-sm font-semibold mb-1">Giriş Metni (Intro)</label>
-                    <textarea className="w-full border p-2 rounded h-24" value={menu.intro} onChange={e => setMenu({ ...menu, intro: e.target.value })} />
+                    <textarea className="w-full border p-2 sm:p-3 rounded h-24" value={menu.intro} onChange={e => setMenu({ ...menu, intro: e.target.value })} />
                 </div>
             </div>
 
             {/* SECTIONS */}
-            <div className="space-y-12">
+            <div className="space-y-8 sm:space-y-12">
                 {menu.sections.map((section: any, sIdx: number) => (
-                    <div key={section.id || sIdx} className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div className="flex justify-between items-center mb-4">
+                    <div key={section.id || sIdx} className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+
+                        {/* CATEGORY HEADER */}
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                             <input
-                                className="text-2xl font-bold border-b-2 border-transparent hover:border-gray-300 focus:border-blue-500 outline-none w-1/2"
+                                className="text-xl sm:text-2xl font-bold border-b-2 border-transparent hover:border-gray-300 focus:border-blue-500 outline-none w-full sm:w-1/2"
                                 value={section.title}
                                 onChange={(e) => {
                                     const newMenu = { ...menu };
@@ -110,29 +113,26 @@ export default function EditMenuPage() {
                                 }}
                             />
 
-                            <div className="flex items-center gap-3">
-                                {/* SECTION REORDER CONTROLS */}
-                                <div className="flex bg-gray-100 rounded overflow-hidden">
+                            <div className="flex items-center justify-between w-full sm:w-auto gap-3">
+                                <div className="flex bg-gray-100 rounded overflow-hidden border border-gray-200">
                                     <button
                                         disabled={sIdx === 0}
                                         onClick={() => moveSection(sIdx, "up")}
-                                        className="px-3 py-1 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed border-r border-gray-300"
-                                        title="Yukarı Taşı"
+                                        className="px-4 sm:px-3 py-2 sm:py-1 hover:bg-gray-200 disabled:opacity-30 border-r border-gray-300"
                                     >
                                         ↑
                                     </button>
                                     <button
                                         disabled={sIdx === menu.sections.length - 1}
                                         onClick={() => moveSection(sIdx, "down")}
-                                        className="px-3 py-1 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed"
-                                        title="Aşağı Taşı"
+                                        className="px-4 sm:px-3 py-2 sm:py-1 hover:bg-gray-200 disabled:opacity-30"
                                     >
                                         ↓
                                     </button>
                                 </div>
 
                                 <button
-                                    className="text-red-500 text-sm font-semibold hover:bg-red-50 px-3 py-1 rounded"
+                                    className="text-red-500 text-sm font-semibold hover:bg-red-50 px-3 py-2 rounded"
                                     onClick={() => {
                                         if (confirm("Bu kategoriyi silmek istediğinize emin misiniz?")) {
                                             const newMenu = { ...menu };
@@ -141,35 +141,18 @@ export default function EditMenuPage() {
                                         }
                                     }}
                                 >
-                                    Kategoriyi Sil
+                                    Sil
                                 </button>
                             </div>
                         </div>
 
-                        {/* ITEMS */}
-                        <div className="space-y-3 mt-6">
+                        {/* ITEMS LIST */}
+                        <div className="space-y-4">
                             {section.items.map((item: any, iIdx: number) => (
-                                <div key={iIdx} className="flex gap-4 items-center bg-gray-50 p-3 rounded border border-gray-200 group">
+                                <div key={iIdx} className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center bg-gray-50 p-3 sm:p-4 rounded border border-gray-200 group">
 
-                                    {/* ITEM REORDER CONTROLS */}
-                                    <div className="flex flex-col bg-white border border-gray-300 rounded overflow-hidden shadow-sm">
-                                        <button
-                                            disabled={iIdx === 0}
-                                            onClick={() => moveItem(sIdx, iIdx, "up")}
-                                            className="px-2 py-0.5 hover:bg-gray-100 text-xs disabled:opacity-20 border-b border-gray-200"
-                                        >
-                                            ↑
-                                        </button>
-                                        <button
-                                            disabled={iIdx === section.items.length - 1}
-                                            onClick={() => moveItem(sIdx, iIdx, "down")}
-                                            className="px-2 py-0.5 hover:bg-gray-100 text-xs disabled:opacity-20"
-                                        >
-                                            ↓
-                                        </button>
-                                    </div>
-
-                                    <div className="flex-1 space-y-2">
+                                    {/* TEXT INPUTS (Stack on mobile, expand on desktop) */}
+                                    <div className="flex-1 w-full space-y-2">
                                         <input className="w-full border p-2 rounded text-sm font-bold" placeholder="Ürün Adı" value={item.name}
                                             onChange={(e) => {
                                                 const newMenu = { ...menu };
@@ -185,31 +168,54 @@ export default function EditMenuPage() {
                                             }}
                                         />
                                     </div>
-                                    <div className="w-24">
-                                        <input className="w-full border p-2 rounded font-bold" placeholder="₺Fiyat" value={item.price}
-                                            onChange={(e) => {
-                                                const newMenu = { ...menu };
-                                                newMenu.sections[sIdx].items[iIdx].price = e.target.value;
-                                                setMenu(newMenu);
-                                            }}
-                                        />
+
+                                    {/* CONTROLS (Price, Arrows, Delete - Row on mobile & desktop) */}
+                                    <div className="flex items-center justify-between w-full sm:w-auto gap-3 pt-2 sm:pt-0 border-t sm:border-0 border-gray-200">
+                                        <div className="w-24 flex-shrink-0">
+                                            <input className="w-full border p-2 rounded font-bold" placeholder="₺Fiyat" value={item.price}
+                                                onChange={(e) => {
+                                                    const newMenu = { ...menu };
+                                                    newMenu.sections[sIdx].items[iIdx].price = e.target.value;
+                                                    setMenu(newMenu);
+                                                }}
+                                            />
+                                        </div>
+
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex bg-white border border-gray-300 rounded shadow-sm">
+                                                <button
+                                                    disabled={iIdx === 0}
+                                                    onClick={() => moveItem(sIdx, iIdx, "up")}
+                                                    className="px-3 py-2 sm:py-1 hover:bg-gray-100 disabled:opacity-20 border-r border-gray-200"
+                                                >
+                                                    ↑
+                                                </button>
+                                                <button
+                                                    disabled={iIdx === section.items.length - 1}
+                                                    onClick={() => moveItem(sIdx, iIdx, "down")}
+                                                    className="px-3 py-2 sm:py-1 hover:bg-gray-100 disabled:opacity-20"
+                                                >
+                                                    ↓
+                                                </button>
+                                            </div>
+
+                                            <button
+                                                className="text-red-500 hover:bg-red-100 p-2 rounded transition-colors"
+                                                onClick={() => {
+                                                    const newMenu = { ...menu };
+                                                    newMenu.sections[sIdx].items.splice(iIdx, 1);
+                                                    setMenu(newMenu);
+                                                }}>
+                                                ✕
+                                            </button>
+                                        </div>
                                     </div>
-                                    <button
-                                        className="text-red-500 hover:bg-red-100 p-2 rounded transition-colors"
-                                        title="Sil"
-                                        onClick={() => {
-                                            const newMenu = { ...menu };
-                                            newMenu.sections[sIdx].items.splice(iIdx, 1);
-                                            setMenu(newMenu);
-                                        }}>
-                                        ✕
-                                    </button>
                                 </div>
                             ))}
                         </div>
 
                         <button
-                            className="mt-4 text-blue-600 text-sm font-semibold px-4 py-2 hover:bg-blue-50 rounded transition-colors"
+                            className="mt-4 text-blue-600 text-sm font-semibold px-4 py-3 sm:py-2 hover:bg-blue-50 rounded transition-colors w-full sm:w-auto border border-blue-100 sm:border-transparent text-center sm:text-left"
                             onClick={() => {
                                 const newMenu = { ...menu };
                                 newMenu.sections[sIdx].items.push({ name: "", desc: "", price: "₺" });
@@ -223,7 +229,7 @@ export default function EditMenuPage() {
             </div>
 
             <button
-                className="mt-8 w-full py-4 border-2 border-dashed border-gray-300 text-gray-500 font-bold rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-colors"
+                className="mt-8 w-full py-4 border-2 border-dashed border-gray-300 text-gray-500 font-bold rounded-xl hover:bg-gray-100 hover:border-gray-400 transition-colors"
                 onClick={() => {
                     const newMenu = { ...menu };
                     newMenu.sections.push({ id: `kategori-${Date.now()}`, title: "Yeni Kategori", image: "", items: [] });

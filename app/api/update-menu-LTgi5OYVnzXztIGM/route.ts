@@ -15,6 +15,7 @@ export async function POST(request: Request) {
         await put('menu.json', JSON.stringify(menuData), {
             access: 'public',
             addRandomSuffix: false,
+            allowOverwrite: true,
         });
 
         // 3. Clear the Next.js cache so the public site updates instantly
