@@ -102,53 +102,38 @@ export default async function MenuPage() {
             </section>
 
             {/* SECTIONS */}
-            <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20 md:py-28 space-y-24">
+            <div className="max-w-3xl mx-auto px-5 sm:px-8 py-20 md:py-28 space-y-24">
                 {sections.map((section, i) => (
                     <section
                         key={section.id}
                         id={section.id}
-                        className="scroll-mt-24 grid md:grid-cols-5 gap-10"
+                        className="scroll-mt-24"
                     >
-                        <div className={`md:col-span-2 ${i % 2 === 1 ? "md:order-2" : ""}`}>
-                            {section.image && (
-                                <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg sticky top-24">
-                                    <Image
-                                        src={section.image}
-                                        alt={section.title}
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 40vw"
-                                        className="object-cover"
-                                    />
-                                </div>
-                            )}
-                        </div>
-                        <div className="md:col-span-3">
-                            <span className="text-xs tracking-[0.2em] uppercase text-brand font-semibold">
-                                {String(i + 1).padStart(2, "0")} / {sections.length.toString().padStart(2, "0")}
-                            </span>
-                            <h2 className="font-display text-4xl sm:text-5xl mt-3 text-brand-dark">
-                                {section.title}
-                            </h2>
-                            <ul className="mt-8 divide-y divide-black/5">
-                                {section.items.map((item) => (
-                                    <li key={item.name} className="py-5 flex gap-6 items-baseline">
-                                        <div className="flex-1">
-                                            <h3 className="font-semibold text-lg text-brand-dark">
-                                                {item.name}
-                                            </h3>
-                                            {item.desc && (
-                                                <p className="text-sm text-foreground/60 mt-1">
-                                                    {item.desc}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <span className="font-display text-lg text-brand whitespace-nowrap">
-                                            {item.price}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                        <span className="text-xs tracking-[0.2em] uppercase text-brand font-semibold">
+                            {String(i + 1).padStart(2, "0")} / {sections.length.toString().padStart(2, "0")}
+                        </span>
+                        <h2 className="font-display text-4xl sm:text-5xl mt-3 text-brand-dark">
+                            {section.title}
+                        </h2>
+                        <ul className="mt-8 divide-y divide-black/5">
+                            {section.items.map((item) => (
+                                <li key={item.name} className="py-5 flex gap-6 items-baseline">
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-lg text-brand-dark">
+                                            {item.name}
+                                        </h3>
+                                        {item.desc && (
+                                            <p className="text-sm text-foreground/60 mt-1">
+                                                {item.desc}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <span className="font-display text-lg text-brand whitespace-nowrap">
+                                        {item.price}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
                     </section>
                 ))}
             </div>
